@@ -9,20 +9,23 @@ import java.awt.event.ActionEvent;
 public class selectpage extends JFrame {
 
 	private JPanel contentPane;
-	ImageIcon room1=new ImageIcon("room1.jpg");
-	ImageIcon room2=new ImageIcon("room2.jpg");
-	ImageIcon room3=new ImageIcon("room3.jpg");
-	ImageIcon room4=new ImageIcon("room4.jpg");
+	ImageIcon room1=new ImageIcon("R1.jpg");
+	ImageIcon room2=new ImageIcon("R2.jpg");
+	ImageIcon room3=new ImageIcon("R3.jpg");
+	ImageIcon room4=new ImageIcon("R4.jpg");
+	ImageIcon zoom=new ImageIcon("zoom.jpg");
+	ImageIcon bg =new ImageIcon("spbackground.jpg");
+	
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField textField_3;
-	/*
-	room1.setImage(room1.getImage().getScaledInstance(40,20,Image.SCALE_DEFAULT));
-	room2.setImage(room2.getImage().getScaledInstance(40,20,Image.SCALE_DEFAULT));
-	room3.setImage(room3.getImage().getScaledInstance(40,20,Image.SCALE_DEFAULT));
-	room4.setImage(room4.getImage().getScaledInstance(40,20,Image.SCALE_DEFAULT));
-*/
+	
+	room1 s1=new room1();
+	room2 s2=new room2();
+	room3 s3=new room3();
+	room4 s4=new room4();
+	
 	/**
 	 * Launch the application.
 	 */
@@ -44,13 +47,26 @@ public class selectpage extends JFrame {
 	 */
 	public selectpage() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 600, 648);
+		setBounds(100, 100, 1000, 650);
 		contentPane = new JPanel();
 		//contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		
+		
+		
+		bg.setImage(bg.getImage().getScaledInstance(1000,650,Image.SCALE_DEFAULT));
+		JLabel l=new JLabel(bg);
+		l.setBounds(0,0,bg.getIconWidth(),bg.getIconHeight());
+		getLayeredPane().add(l,new Integer(Integer.MIN_VALUE));
+		contentPane.setOpaque(false);
+		setResizable(false);
+		
+		
+		
+		
 		JPanel panel = new JPanel();
+		panel.setOpaque(false);
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 		
@@ -72,7 +88,7 @@ public class selectpage extends JFrame {
 		panel.add(lblDeluxeSingleRoom);
 		
 		JLabel lblSuitRoom = new JLabel("suite");
-		lblSuitRoom.setBounds(16, 422, 61, 16);
+		lblSuitRoom.setBounds(16, 440, 61, 16);
 		panel.add(lblSuitRoom);
 		
 		textField = new JTextField();
@@ -120,20 +136,24 @@ public class selectpage extends JFrame {
 		textField_3 = new JTextField();
 		textField_3.setText("1");
 		textField_3.setColumns(10);
-		textField_3.setBounds(496, 422, 41, 34);
+		textField_3.setBounds(496, 448, 41, 34);
 		panel.add(textField_3);
 		
 		JButton button_6 = new JButton("+");
-		button_6.setBounds(466, 428, 24, 24);
+		button_6.setBounds(466, 454, 24, 24);
 		panel.add(button_6);
 		
 		JButton button_7 = new JButton("-");
-		button_7.setBounds(543, 428, 24, 24);
+		button_7.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		button_7.setBounds(543, 454, 24, 24);
 		panel.add(button_7);
 		
 		JTextArea txtrJieshao = new JTextArea();
 		txtrJieshao.setText("room1 info");
-		txtrJieshao.setBounds(198, 48, 238, 105);
+		txtrJieshao.setBounds(198, 61, 238, 97);
 		panel.add(txtrJieshao);
 		
 		JTextArea txtrRoomInfo = new JTextArea();
@@ -148,7 +168,7 @@ public class selectpage extends JFrame {
 		
 		JTextArea txtrRoomInfo_2 = new JTextArea();
 		txtrRoomInfo_2.setText("room4 info");
-		txtrRoomInfo_2.setBounds(198, 419, 238, 105);
+		txtrRoomInfo_2.setBounds(198, 431, 238, 105);
 		panel.add(txtrRoomInfo_2);
 		
 		JButton btnConfirm = new JButton("confirm");
@@ -159,24 +179,63 @@ public class selectpage extends JFrame {
 		btnCanel.setBounds(306, 591, 117, 29);
 		panel.add(btnCanel);
 		
-		JButton btnPhoto = new JButton("photo");
-		btnPhoto.setBounds(26, 81, 75, 29);
-		panel.add(btnPhoto);
+		JLabel lblPic = new JLabel("pic1");
+		lblPic.setBounds(606, 16, 200, 160);
+		panel.add(lblPic);
 		
-		JButton btnPhoto_1 = new JButton("photo");
-		btnPhoto_1.setBounds(26, 209, 75, 29);
-		panel.add(btnPhoto_1);
+		JLabel lblPic_1 = new JLabel("pic2");
+		lblPic_1.setBounds(606, 151, 200, 160);
+		panel.add(lblPic_1);
 		
-		JButton btnPhoto_2 = new JButton("photo");
-		btnPhoto_2.setBounds(26, 319, 75, 29);
-		panel.add(btnPhoto_2);
+		JLabel lblPic_2 = new JLabel("pic3");
+		lblPic_2.setBounds(606, 294, 200, 160);
+		panel.add(lblPic_2);
 		
-		JButton btnPhoto_3 = new JButton("photo");
-		btnPhoto_3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		JLabel lblPic_3 = new JLabel("pic4");
+		lblPic_3.setBounds(606, 431, 200, 160);
+		panel.add(lblPic_3);
+		
+		
+		lblPic. setIcon(room1);
+		lblPic_1.setIcon(room2);
+		lblPic_2.setIcon(room3);
+		lblPic_3.setIcon(room4);
+		
+		JButton btnZoom = new JButton(zoom);
+		btnZoom.setBounds(818, 115, 30, 30);
+		btnZoom.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				s1.setVisible(true);
 			}
 		});
-		btnPhoto_3.setBounds(26, 446, 83, 29);
-		panel.add(btnPhoto_3);
+		panel.add(btnZoom);
+		
+		JButton btnZoom_1 = new JButton(zoom);
+		btnZoom_1.setBounds(818, 262, 30, 30);
+		btnZoom_1.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				s2.setVisible(true);
+			}
+		});
+		panel.add(btnZoom_1);
+		
+		JButton btnZoom_2 = new JButton(zoom);
+		btnZoom_2.setBounds(818, 410, 30, 30);
+		btnZoom_2.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				s3.setVisible(true);
+			}
+		});
+		panel.add(btnZoom_2);
+		
+		JButton btnZoom_3 = new JButton(zoom);
+		btnZoom_3.setBounds(818, 540, 30, 30);
+		btnZoom_3.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				s4.setVisible(true);
+			}
+		});
+		panel.add(btnZoom_3);
+
 	}
 }

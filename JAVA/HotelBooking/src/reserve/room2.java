@@ -22,7 +22,7 @@ public class room2 extends JFrame {
 			public void run() {
 				try {
 					room2 frame = new room2();
-					frame.setVisible(true);
+					frame.setVisible(false);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

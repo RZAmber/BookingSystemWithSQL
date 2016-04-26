@@ -22,7 +22,7 @@ public class room1 extends JFrame {
 			public void run() {
 				try {
 					room1 frame = new room1();
-					frame.setVisible(true);
+					//frame.setVisible(false);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -34,7 +34,7 @@ public class room1 extends JFrame {
 	 * Create the frame.
 	 */
 	public room1() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
