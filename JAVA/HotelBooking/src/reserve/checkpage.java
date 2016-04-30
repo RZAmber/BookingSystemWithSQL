@@ -2,15 +2,18 @@ package reserve;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
+import java.awt.event.*;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.GridLayout;
+import java.awt.Image;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.JTextArea;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.Color;
@@ -26,6 +29,7 @@ public class checkpage extends JFrame {
 	private JTextField textField_5;
 	private JTextField textField_6;
 	private JTextField textField_7;
+	ImageIcon bg =new ImageIcon("spbackground.jpg");
 
 	/**
 	 * Launch the application.
@@ -54,7 +58,17 @@ public class checkpage extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		
+		bg.setImage(bg.getImage().getScaledInstance(800,530,Image.SCALE_DEFAULT));
+		JLabel l=new JLabel(bg);
+		l.setBounds(0,0,bg.getIconWidth(),bg.getIconHeight());
+		getLayeredPane().add(l,new Integer(Integer.MIN_VALUE));
+		contentPane.setOpaque(false);
+		setResizable(false);
+		
+		
 		JPanel panel_2 = new JPanel();
+	    panel_2.setOpaque(false);
 		panel_2.setBounds(0, 27, 632, 479);
 		contentPane.add(panel_2);
 		panel_2.setLayout(null);
@@ -79,6 +93,7 @@ public class checkpage extends JFrame {
 		textField_1.setText("ID");
 		textField_1.setColumns(10);
 		textField_1.setBounds(317, 29, 190, 29);
+		
 		panel_2.add(textField_1);
 		
 		JLabel label_2 = new JLabel("ROOM TYPE");
@@ -162,6 +177,11 @@ public class checkpage extends JFrame {
 		
 		JButton btnComfirm = new JButton("comfirm");
 		btnComfirm.setBounds(241, 432, 117, 29);
+		btnComfirm.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+			//	checkpage.setVisible(true);
+			}
+		});
 		panel_2.add(btnComfirm);
 		
 		JLabel lblMmddyy = new JLabel("MM/DD/YY");
@@ -173,6 +193,7 @@ public class checkpage extends JFrame {
 		panel_2.add(lblMmddyy_1);
 		
 		JPanel panel = new JPanel();
+		panel.setOpaque(false);
 		panel.setBounds(0, -4, 632, 32);
 		contentPane.add(panel);
 		panel.setLayout(null);
@@ -181,5 +202,85 @@ public class checkpage extends JFrame {
 		label_9.setFont(new Font("Lucida Grande", Font.PLAIN, 21));
 		label_9.setBounds(208, 6, 189, 26);
 		panel.add(label_9);
+	}
+	
+	
+	/*
+	 * data extract part
+	 */
+	
+	private String name;
+	private int ID;
+	private String roomType;
+	private int amount;
+	private String checkIn;
+	private String checkOut;
+	private String phone;
+	private String email;
+	private String comments;
+	
+	//set information part:
+	public void setname(String name){
+		this.name=name;	
+	}
+	
+	public void setID(int ID){
+		this.ID=ID;
+	}
+
+
+	public void setRoomeType(String roomeTpye){
+	this.roomType = roomType;
+	
+}
+
+	public void setAmount(int amount){
+	this.amount = amount;
+}
+
+	public void setPhone(String phone){
+	this.phone= phone;
+}
+	
+	public void setEmail(String email){
+		this.email=email;
+}
+	
+	public void setCheckIn(String checkIn){
+		this.checkIn= checkIn;
+}
+	
+	public void setCheckOut(String checkOut){
+		this.checkOut=checkOut;
+}
+	
+
+	//get information part:
+	public String getname(){
+		return textField.getText();
+	}
+	
+	public String getID(){
+		return textField_1.getText();
+	}
+	
+	public String getRoomType(){
+		return textField_2.getText();
+	}
+	
+	public String getAmount(){
+		return textField_3.getText();
+	}
+	
+	public String getPhone(){
+		return textField_4.getText();
+	}
+	
+	public String getEmail(){
+		return textField_5.getText();
+	}
+	
+	public String getComments(){
+		return textField_6.getText();
 	}
 }

@@ -8,10 +8,13 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Image;
+
 import javax.swing.JTextArea;
 import javax.swing.JList;
 import java.awt.Color;
 import javax.swing.JScrollBar;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -20,6 +23,7 @@ import javax.swing.JRadioButton;
 public class resultpage extends JFrame {
 
 	private JPanel contentPane;
+	ImageIcon bg =new ImageIcon("spbackground.jpg");
 
 	/**
 	 * Launch the application.
@@ -48,7 +52,15 @@ public class resultpage extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		
+		bg.setImage(bg.getImage().getScaledInstance(600,550,Image.SCALE_DEFAULT));
+		JLabel l=new JLabel(bg);
+		l.setBounds(0,0,bg.getIconWidth(),bg.getIconHeight());
+		getLayeredPane().add(l,new Integer(Integer.MIN_VALUE));
+		contentPane.setOpaque(false);
+		setResizable(false);
+		
 		JPanel panel = new JPanel();
+		panel.setOpaque(false);
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 		

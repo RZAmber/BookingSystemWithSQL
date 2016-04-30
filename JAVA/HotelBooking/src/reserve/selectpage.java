@@ -71,24 +71,28 @@ public class selectpage extends JFrame {
 		panel.setLayout(null);
 		
 		JLabel lblPleaseSelectThe = new JLabel("Please select the room type");
-		lblPleaseSelectThe.setFont(new Font("Lucida Grande", Font.ITALIC, 16));
-		lblPleaseSelectThe.setBounds(6, 6, 224, 33);
+		lblPleaseSelectThe.setFont(new Font("Yuanti SC", Font.BOLD, 20));
+		lblPleaseSelectThe.setBounds(6, 6, 257, 33);
 		panel.add(lblPleaseSelectThe);
 		
 		JLabel lblRoom = new JLabel("Standard Room");
-		lblRoom.setBounds(16, 61, 107, 16);
+		lblRoom.setFont(new Font("Arial Hebrew Scholar", Font.BOLD, 16));
+		lblRoom.setBounds(17, 63, 130, 16);
 		panel.add(lblRoom);
 		
 		JLabel lblSingleRoom = new JLabel("single room");
-		lblSingleRoom.setBounds(16, 188, 93, 16);
+		lblSingleRoom.setFont(new Font("Arial Hebrew Scholar", Font.BOLD, 16));
+		lblSingleRoom.setBounds(31, 188, 130, 16);
 		panel.add(lblSingleRoom);
 		
 		JLabel lblDeluxeSingleRoom = new JLabel("deluxe single room");
-		lblDeluxeSingleRoom.setBounds(6, 294, 140, 33);
+		lblDeluxeSingleRoom.setFont(new Font("Arial Hebrew Scholar", Font.BOLD, 16));
+		lblDeluxeSingleRoom.setBounds(6, 294, 155, 33);
 		panel.add(lblDeluxeSingleRoom);
 		
 		JLabel lblSuitRoom = new JLabel("suite");
-		lblSuitRoom.setBounds(16, 440, 61, 16);
+		lblSuitRoom.setFont(new Font("Arial Hebrew Scholar", Font.BOLD, 16));
+		lblSuitRoom.setBounds(54, 435, 61, 16);
 		panel.add(lblSuitRoom);
 		
 		textField = new JTextField();
@@ -152,22 +156,34 @@ public class selectpage extends JFrame {
 		panel.add(button_7);
 		
 		JTextArea txtrJieshao = new JTextArea();
-		txtrJieshao.setText("room1 info");
-		txtrJieshao.setBounds(198, 61, 238, 97);
+		txtrJieshao.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
+		txtrJieshao.setText("Standard Room\n2 Double Beds\n(Extra beds available: Crib)\nRoom sleeps 4 guests\n(up to 2 childern)");
+		txtrJieshao.setOpaque(false);
+		txtrJieshao.setEditable(false);
+		txtrJieshao.setBounds(198, 61, 238, 105);
 		panel.add(txtrJieshao);
 		
 		JTextArea txtrRoomInfo = new JTextArea();
-		txtrRoomInfo.setText("room2 info");
+		txtrRoomInfo.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
+		txtrRoomInfo.setText("Standard Room\n1 Queen Bed\n(Extra beds available: Crib)\nRoom sleeps 2 guests\n(up to 1 child)");
+		txtrRoomInfo.setOpaque(false);
+		txtrRoomInfo.setEditable(false);
 		txtrRoomInfo.setBounds(198, 177, 238, 105);
 		panel.add(txtrRoomInfo);
 		
 		JTextArea txtrRoomInfo_1 = new JTextArea();
-		txtrRoomInfo_1.setText("room3 info");
+		txtrRoomInfo_1.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
+		txtrRoomInfo_1.setText("Deluxe Room\n1 king bed\n(Extra beds available: Crib)\nRoom sleeps 2 guests\n(up to 1 child)");
+		txtrRoomInfo_1.setOpaque(false);
+		txtrRoomInfo_1.setEditable(false);
 		txtrRoomInfo_1.setBounds(198, 294, 238, 105);
 		panel.add(txtrRoomInfo_1);
 		
 		JTextArea txtrRoomInfo_2 = new JTextArea();
-		txtrRoomInfo_2.setText("room4 info");
+		txtrRoomInfo_2.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
+		txtrRoomInfo_2.setText("Superior Room\n1 King Bed\n(Extra beds available: Crib)\nRoom sleeps 2 guests\n(up to 1 child)");
+		txtrRoomInfo_2.setOpaque(false);
+		txtrRoomInfo_2.setEditable(false);
 		txtrRoomInfo_2.setBounds(198, 431, 238, 105);
 		panel.add(txtrRoomInfo_2);
 		
@@ -231,7 +247,8 @@ public class selectpage extends JFrame {
 		JButton btnZoom_3 = new JButton(zoom);
 		btnZoom_3.setBounds(818, 540, 30, 30);
 		btnZoom_3.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
+			public void actionPerformed(ActionEvent e)
+			{
 				s4.setVisible(true);
 			}
 		});
