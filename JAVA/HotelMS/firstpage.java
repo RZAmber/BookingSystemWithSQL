@@ -10,7 +10,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import Homepage.HomePage;
 import javax.swing.JButton;
 import java.awt.Font;
 import javax.swing.SwingConstants;
@@ -91,9 +90,10 @@ public class firstpage extends JFrame {
  		btnSignup.addActionListener(new ActionListener() {
  			public void actionPerformed(ActionEvent e) {
  				//let firstpage disappear
- 				setVisible(false);
+// 				setVisible(false);
  				//create dialog
- 			    SignupUser signup = new SignupUser(userDAO);
+ 				//SignupUser signup = new SignupUser(userDAO);
+ 			    SignupUser signup = new SignupUser();
  			    //show dialog
  			    signup.setVisible(true); 			}
  		});
@@ -101,6 +101,13 @@ public class firstpage extends JFrame {
  		btnSignup.setFont(new Font("Lucida Calligraphy", Font.BOLD | Font.ITALIC, 20));
  		
  		JButton btnNewButton = new JButton("User Login");
+ 		btnNewButton.addActionListener(new ActionListener() {
+ 			public void actionPerformed(ActionEvent e) {
+ 				setVisible(false);
+ 				LoginUser login = new LoginUser();
+ 				login.setVisible(true);
+ 			}
+ 		});
  		panel.add(btnNewButton);
  		btnNewButton.setFont(new Font("Lucida Calligraphy", Font.BOLD | Font.ITALIC, 20));
  		
@@ -114,23 +121,10 @@ public class firstpage extends JFrame {
  		imagePanel.setOpaque(false);
  		this.getLayeredPane().add(label,new Integer(Integer.MIN_VALUE)); 
  		setVisible(true);
- 		
-        //设置大小  
-//        setSize(500, 400);  
-        //设置位置  
-//        setLocation(200, 50);  
-        //背景图片的路径。（相对路径或者绝对路径。本例图片放于"java项目名"的文件下）   
-        // 背景图片  
-        // 把背景图片显示在一个标签里面   
-        // 把标签的大小位置设置为图片刚好填充整个面板   
-        // 把内容窗格转化为JPanel，否则不能用方法setOpaque()来使内容窗格透明  
-        // 把背景图片添加到分层窗格的最底层作为背景  
-        //设置可见  
-        //点关闭按钮时退出  
 
         
         
- 		
+ 		setDefaultCloseOperation(EXIT_ON_CLOSE);	
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();

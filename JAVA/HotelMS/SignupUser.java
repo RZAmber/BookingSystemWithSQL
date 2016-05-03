@@ -22,13 +22,13 @@ import java.awt.event.ActionEvent;
 
 import HotelMS.User;
 import HotelMS.UserDAO;
+import javax.swing.JPasswordField;
 
 public class SignupUser extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField EmailtextField;
 	private JTextField LastNametextField;
-	private JTextField PasswordtextField;
 	private JTextField PhonetextField;
 	private JTextField FirstNametextField;
 	private JTextField CountrytextField;
@@ -38,17 +38,49 @@ public class SignupUser extends JDialog {
 	private JTextField StatetextField;
 	private JTextField ZiptextField;
 
-
+    private UserDAO userDAO;
 	private firstpage firstpage;
 	private SignupUser signupUser;
+	private JPasswordField passwordField;
 	
-	public SignupUser(UserDAO theUserDAO){
-		this();
-		UserDAO userDAO=theUserDAO;
+//	reuse to update user info
+	private UserHome userHome;
+	private User previousUser = null;
+	private boolean updateMode = false;
+	
+
+
+	public SignupUser(UserHome theUserHome, UserDAO theUserDAO, User thePreviousUser, boolean theUpdateMode){
+        this();
+		userDAO=theUserDAO;
+		userHome = theUserHome;
+		previousUser = thePreviousUser;
+		updateMode = theUpdateMode;
+		if(updateMode){
+			setTitle("Update User Information");
+			populateGui(previousUser);
+		}
 	}
-	/**
-	 * Create the dialog.
-	 */
+	//add for update user info
+	private void populateGui(User theUser){
+		EmailtextField.setText(theUser.getEmail());
+		FirstNametextField.setText(theUser.getFirstname());
+		LastNametextField.setText(theUser.getLastname());
+		passwordField.setText(theUser.getPassword());
+		PhonetextField.setText(Integer.toString(theUser.getPhone()));
+		CountrytextField.setText(theUser.getCountry());
+		AddresstextField.setText(theUser.getAddress());
+		Address2textField.setText(theUser.getAddress2());
+		CitytextField.setText(theUser.getCity());
+		StatetextField.setText(theUser.getState());
+		ZiptextField.setText(theUser.getZip());
+//		System.out.println(theUser.getPassword());
+
+	}
+	public SignupUser(UserHome theUserHome, UserDAO theUserDAO){
+		this(theUserHome, theUserDAO, null, false);
+	}
+
 	public SignupUser() {
 		setTitle("Welcome to Hello World Hotel");
 		setBounds(100, 100, 450, 450);
@@ -117,9 +149,8 @@ public class SignupUser extends JDialog {
 			contentPanel.add(lblPassword, "2, 8, right, default");
 		}
 		{
-			PasswordtextField = new JTextField();
-			contentPanel.add(PasswordtextField, "4, 8, fill, default");
-			PasswordtextField.setColumns(10);
+			passwordField = new JPasswordField();
+			contentPanel.add(passwordField, "4, 8, fill, default");
 		}
 		{
 			JLabel lblPhone = new JLabel("Phone");
@@ -195,6 +226,7 @@ public class SignupUser extends JDialog {
 					public void actionPerformed(ActionEvent e) {
 						try {
 							saveUser();
+//							firstpage.setVisible(true);
 						} catch (Exception e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -216,7 +248,7 @@ public class SignupUser extends JDialog {
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
-		}
+		}	
 	}
 	
 	protected void saveUser() throws Exception{
@@ -224,7 +256,7 @@ public class SignupUser extends JDialog {
 		String email = EmailtextField.getText();
 		String firstname = FirstNametextField.getText();
 		String lastname = LastNametextField.getText();
-		String password = PasswordtextField.getText();
+		String password = new String(passwordField.getPassword());
 		int phone =Integer.parseInt(PhonetextField.getText());
 		String country = CountrytextField.getText();
 		String address = AddresstextField.getText();
@@ -233,39 +265,66 @@ public class SignupUser extends JDialog {
 		String state = StatetextField.getText();
 		String zip = ZiptextField.getText();
 		
-		User tempUser = new User(email,password,firstname,lastname,phone,country,address,address2,city,state,zip);	
-//		System.out.println(tempUser);
-		
+		User tempUser = null;
+		userDAO= new UserDAO();
+		if(updateMode){
+			tempUser = previousUser;
+			tempUser.setEmail(email);
+			tempUser.setFirstname(firstname);
+			tempUser.setLastname(lastname);
+			tempUser.setPassword(password);;
+			tempUser.setPhone(phone);
+			tempUser.setCountry(country);
+			tempUser.setAddress(address);
+			tempUser.setAddress2(address2);
+			tempUser.setCity(city);
+			tempUser.setState(state);
+			tempUser.setZip(zip);
+		}else{
+			tempUser = new User(email,password,firstname,lastname,phone,country,address,address2,city,state,zip);	
+		}
+		//save to database
 		try{
-			//check the email exists or not. if not, save to the user database
-			UserDAO userDAO = new UserDAO();
-			boolean f = userDAO.exists(email);
-			if(f = true){
+			if(updateMode){
+				userDAO.updateUser(tempUser);
+				setVisible(false);
+				dispose();
+//				userHome.refreshUserView();
 				JOptionPane.showMessageDialog(firstpage,
-						"This email alreadly exists.",
+						"Information changed succesfully.",
 						"Employee Added",
 						JOptionPane.INFORMATION_MESSAGE);
 			}else{
-				userDAO.addUser(tempUser);
-				//close dialog
-				setVisible(false);
-				dispose();
-		
-				//show confirm mseeage
-				JOptionPane.showMessageDialog(firstpage,
-						"User added succesfully.",
-						"Employee Added",
-						JOptionPane.INFORMATION_MESSAGE);
+				//check the email exists or not. if not, save to the user database
+//				UserDAO userDAO = new UserDAO();
+				boolean f = userDAO.exists(email);
+				System.out.println(f);
+				if(f == true){
+					JOptionPane.showMessageDialog(firstpage,
+							"This email alreadly exists.",
+							"Employee Added",
+							JOptionPane.INFORMATION_MESSAGE);
+				}else{
+					userDAO.addUser(tempUser);
+					//close dialog
+					setVisible(false);
+					dispose();
+			
+					//show confirm mseeage
+					JOptionPane.showMessageDialog(firstpage,
+							"User added succesfully.",
+							"Employee Added",
+							JOptionPane.INFORMATION_MESSAGE);
+			}
 			}
 		}catch(Exception exc){
-			JOptionPane.showMessageDialog(signupUser, "Error saving employee。",
+			JOptionPane.showMessageDialog(signupUser, "Error saving user.",
 					"Error",
 			JOptionPane.ERROR_MESSAGE);
 		}
-	
 		
 }
-
+/*
 	public static void main(String[] args){
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -278,5 +337,5 @@ public class SignupUser extends JDialog {
 			}
 		});
 	}
-
+*/
 }

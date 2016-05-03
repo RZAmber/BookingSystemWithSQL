@@ -106,7 +106,7 @@ public class User {
 	
 	public String toString() {
 		return String
-				.format("User [email=%s, password = %s,firstname=%s, lastname=%s, phone=%s,country=%s,state=%s,address=%s,city=%s,zip=%s]",
-						email,password,firstname,lastname,phone,country,state,address,city,zip);
+				.format("User [email=%s, password = %s,firstname=%s, lastname=%s, phone=%s,country=%s,state=%s,address=%s,address2=%s,city=%s,zip=%s]",
+						email,password,firstname,lastname,phone,country,state,address,address2,city,zip);
 	}
 }

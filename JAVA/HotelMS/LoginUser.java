@@ -27,7 +27,6 @@ public class LoginUser extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTextField EmailtextField;
 	private JPasswordField PasswordField;
-	
 	private firstpage firstpage;
 
 	public static void main(String[] args) {
@@ -93,7 +92,6 @@ public class LoginUser extends JDialog {
 						try {
 							CheckPasswordU();
 						} catch (Exception e1) {
-							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
 					}
@@ -124,16 +122,20 @@ public class LoginUser extends JDialog {
 		String email = EmailtextField.getText();
 		String password = new String(PasswordField.getPassword());
 		UserDAO userDAO = new UserDAO();
+		
+		//check the password
 		try{
-			//check the email exists or not. if not, save to the user database
-			if(password.equals(userDAO.getPassword(email))){
-				JOptionPane.showMessageDialog(firstpage,
-						"Log in sucessfully.",
-						"Employee Added",
-						JOptionPane.INFORMATION_MESSAGE);
-			//close dialog
+			if("".equals(email)){
+				JOptionPane.showMessageDialog(firstpage, "Please input email.");  // if email or password is null, send message.
+			}
+			else if("".equals(password)){
+				JOptionPane.showMessageDialog(firstpage, "Please input password.");
+			}
+			else if(password.equals(userDAO.getPassword(email))){
 				setVisible(false);
 				dispose();
+ 			    UserHome userhome = new UserHome(email); //put this email address to UserHome page and aim to use it to get the material of this user from mysql
+ 			    userhome.setVisible(true); 
 				}else{
 			//close dialog
 
@@ -143,7 +145,13 @@ public class LoginUser extends JDialog {
 							JOptionPane.INFORMATION_MESSAGE);
 					}
 			}catch(Exception exc){ }
+			
 		}
+		
+//	protected String getEmailInput(){
+//		email = EmailtextField.getText();
+//		return email;
+//	}
 	   /*
 		try{
 			//check the email exists or not. if not, save to the user database
