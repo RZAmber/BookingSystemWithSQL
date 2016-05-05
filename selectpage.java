@@ -1,4 +1,4 @@
-package reserve;
+package HotelBooking;
 
 import java.awt.*;
 import javax.swing.*;
@@ -90,12 +90,12 @@ public class selectpage extends JFrame {
 		
 		JLabel lblDeluxeSingleRoom = new JLabel("deluxe single room");
 		lblDeluxeSingleRoom.setFont(new Font("Arial Hebrew Scholar", Font.BOLD, 16));
-		lblDeluxeSingleRoom.setBounds(6, 294, 155, 33);
+		lblDeluxeSingleRoom.setBounds(6, 312, 155, 33);
 		panel.add(lblDeluxeSingleRoom);
 		
 		JLabel lblSuitRoom = new JLabel("suite");
 		lblSuitRoom.setFont(new Font("Arial Hebrew Scholar", Font.BOLD, 16));
-		lblSuitRoom.setBounds(54, 435, 61, 16);
+		lblSuitRoom.setBounds(41, 448, 61, 16);
 		panel.add(lblSuitRoom);
 		
 
@@ -209,34 +209,34 @@ public class selectpage extends JFrame {
 		
 		JTextArea txtrJieshao = new JTextArea();
 		txtrJieshao.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-		txtrJieshao.setText("Standard Room\n2 Double Beds\n(Extra beds available: Crib)\nRoom sleeps 4 guests\n(up to 2 childern)");
+		txtrJieshao.setText("Standard Room\n2 Double Beds\n(Extra beds available: Crib)\nRoom sleeps 4 guests\n(up to 2 childern)\n$150/perday");
 		txtrJieshao.setOpaque(false);
 		txtrJieshao.setEditable(false);
-		txtrJieshao.setBounds(198, 61, 238, 105);
+		txtrJieshao.setBounds(198, 51, 238, 115);
 		panel.add(txtrJieshao);
 		
 		JTextArea txtrRoomInfo = new JTextArea();
 		txtrRoomInfo.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-		txtrRoomInfo.setText("Standard Room\n1 Queen Bed\n(Extra beds available: Crib)\nRoom sleeps 2 guests\n(up to 1 child)");
+		txtrRoomInfo.setText("Standard Room\n1 Queen Bed\n(Extra beds available: Crib)\nRoom sleeps 2 guests\n(up to 1 child)\n$150/perday");
 		txtrRoomInfo.setOpaque(false);
 		txtrRoomInfo.setEditable(false);
-		txtrRoomInfo.setBounds(198, 177, 238, 105);
+		txtrRoomInfo.setBounds(198, 177, 238, 115);
 		panel.add(txtrRoomInfo);
 		
 		JTextArea txtrRoomInfo_1 = new JTextArea();
 		txtrRoomInfo_1.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-		txtrRoomInfo_1.setText("Deluxe Room\n1 king bed\n(Extra beds available: Crib)\nRoom sleeps 2 guests\n(up to 1 child)");
+		txtrRoomInfo_1.setText("Deluxe Room\n1 king bed\n(Extra beds available: Crib)\nRoom sleeps 2 guests\n(up to 1 child)\n$200/perday");
 		txtrRoomInfo_1.setOpaque(false);
 		txtrRoomInfo_1.setEditable(false);
-		txtrRoomInfo_1.setBounds(198, 294, 238, 105);
+		txtrRoomInfo_1.setBounds(198, 304, 238, 125);
 		panel.add(txtrRoomInfo_1);
 		
 		JTextArea txtrRoomInfo_2 = new JTextArea();
 		txtrRoomInfo_2.setFont(new Font("Lucida Grande", Font.PLAIN, 15));
-		txtrRoomInfo_2.setText("Superior Room\n1 King Bed\n(Extra beds available: Crib)\nRoom sleeps 2 guests\n(up to 1 child)");
+		txtrRoomInfo_2.setText("Superior Room\n1 King Bed\n(Extra beds available: Crib)\nRoom sleeps 2 guests\n(up to 1 child)\n$300/perday");
 		txtrRoomInfo_2.setOpaque(false);
 		txtrRoomInfo_2.setEditable(false);
-		txtrRoomInfo_2.setBounds(198, 431, 238, 105);
+		txtrRoomInfo_2.setBounds(198, 432, 238, 125);
 		panel.add(txtrRoomInfo_2);
 		
 		JButton btnConfirm = new JButton("confirm");
