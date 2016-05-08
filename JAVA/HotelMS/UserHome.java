@@ -1,4 +1,4 @@
-package HotelMS;
+package HotelBooking;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -15,36 +15,34 @@ import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
 
 
-import HotelMS.LoginUser;
-import HotelMS.UserDAO;
-import HotelMS.User;
-import HotelMS.UserTableModel;
-import HotelMS.SignupUser;
-import HotelMS.Order;
-import HotelMS.OrderDAO;
-import HotelMS.OrderTableModel;
+import HotelBooking.*;
 
 public class UserHome extends JDialog {
 	private JTable table;
 	private LoginUser login;
     private static String email;
+    private static String firstname;
+    private static String lastname;
+    private static int phone;
     private User previousUser;
     private UserDAO userDAO;
-    
+    private RoomDAO roomDAO;
     private OrderDAO orderDAO;
+    private int RA1,RA2,RA3,RA4;
     
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			UserHome dialog = new UserHome(email);
+			UserHome dialog = new UserHome(email,firstname,lastname,phone);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -58,7 +56,7 @@ public class UserHome extends JDialog {
 
 
 	//let parameter is email, then I can use email got from SignupUser dialog
-	public UserHome(final String email) {
+	public UserHome(final String email,final String firstname, final String lastname, final int phone) {
 		setTitle("My Hello World");
 		setBounds(100, 100, 800, 300);
 		getContentPane().setLayout(new BorderLayout());
@@ -149,6 +147,26 @@ public class UserHome extends JDialog {
 			}
 			{
 				JButton btnModifyInfo = new JButton("Booking");
+				btnModifyInfo.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						try {
+							roomDAO = new RoomDAO();
+							RA1=roomDAO.getFreeRoom("Single");
+							RA2 = roomDAO.getFreeRoom("DSingle");
+							RA3 =roomDAO.getFreeRoom("Double");
+							RA4 = roomDAO.getFreeRoom("Suite");
+//							System.out.println(RA1);
+							HomePage hp = new HomePage(email,firstname,lastname,phone, RA1, RA2, RA3, RA4);
+							hp.setVisible(true);
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+				});
 				panel.add(btnModifyInfo);
 			}
 			{
@@ -181,6 +199,7 @@ public class UserHome extends JDialog {
 			}
 		}
 	}
+
 	/*
 	public void refreshUserView() {
 

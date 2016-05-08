@@ -1,13 +1,14 @@
-package HotelMS;
+package HotelBooking;
 
 /**aim:
 **create userDAO
 */
 import java.util.*;
+
+import HotelBooking.Order;
+
 import java.io.*;
 import java.sql.*;
-
-import HotelMS.Order;
 
 public class OrderDAO {
 
@@ -25,25 +26,25 @@ public class OrderDAO {
 		myConn = DriverManager.getConnection(dburl, user, password);
 		
 	}
-	/*
-	// add orders
+	
+//	 add orders
 	public void addOrder(Order theOrder) throws Exception{
 		PreparedStatement myStmt = null;
 		try{
 			myStmt = myConn.prepareStatement("insert into order_info" 
-			+ "(orderID,email,firstname,lastname,roomtype,amount,checkin,checkout,total,comment)"
+			+ "(email,first_name,last_name,room_type,amount,room_number,check_in,check_out,total,comment)"
 					+ "values(?,?,?,?,?,?,?,?,?,?)");
 			//get parameters
 			//setString the first number means the parameters instead of which ?
-			myStmt.setInt(1, theOrder.getOrderID());
-			myStmt.setString(2, theOrder.getEmail());
-			myStmt.setString(3, theOrder.getFirstname());
-			myStmt.setString(4, theOrder.getLastname());
-			myStmt.setString(5, theOrder.getRoomtype());
-			myStmt.setInt(6, theOrder.getAmount());
+			myStmt.setString(1, theOrder.getEmail());
+			myStmt.setString(2, theOrder.getFirstname());
+			myStmt.setString(3, theOrder.getLastname());
+			myStmt.setString(4, theOrder.getRoomtype());
+			myStmt.setInt(5, theOrder.getAmount());
+			myStmt.setString(6, theOrder.getRoomnumber());
 			myStmt.setString(7, theOrder.getCheckin());
 			myStmt.setString(8, theOrder.getCheckout());
-			myStmt.setFloat(9, theOrder.getTotal());
+			myStmt.setDouble(9, theOrder.getTotal());
 			myStmt.setString(10, theOrder.getComment());
 			//execute SQL
 			myStmt.executeUpdate();
@@ -52,7 +53,7 @@ public class OrderDAO {
 			close(myStmt);
 		}
 	}
-	*/
+
 //	get all order
 	public List<Order> getAllOrders() throws Exception {
 		List<Order> list = new ArrayList<>();
@@ -77,7 +78,7 @@ public class OrderDAO {
 			close(myStmt, myRs);
 		}
 	}
-	//search user with email
+	//search order with email
 	public List<Order> searchOrderEmail(String email) throws Exception{
 		List<Order> list = new ArrayList<>();
 		
@@ -100,18 +101,133 @@ public class OrderDAO {
 			close(myStmt,myRs);
 		}
 	} 
+	//search order with firstname
+		public List<Order> searchOrderFN(String firstname) throws Exception{
+			List<Order> list = new ArrayList<>();
+			
+			Statement myStmt = null;
+			ResultSet myRs = null;
+			try{
+				firstname += "%";
+				myStmt = myConn.prepareStatement("select * from order_info where first_name like ?");
+				((PreparedStatement) myStmt).setString(1,firstname);
+				myRs =((PreparedStatement) myStmt).executeQuery();
+				
+				while(myRs.next()){
+					Order tempOrder = convertRowToOrder(myRs);
+					list.add(tempOrder);
+				}
+
+				return list;
+			}
+			finally{
+				close(myStmt,myRs);
+			}
+		} 
+	//search order with orderID
+		public List<Order> searchOrderID(int orderID) throws Exception{
+			List<Order> list = new ArrayList<>();
+			
+			Statement myStmt = null;
+			ResultSet myRs = null;
+			try{
+				myStmt = myConn.prepareStatement("select * from order_info where orderID like ?");
+				((PreparedStatement) myStmt).setInt(1,orderID);
+				myRs =((PreparedStatement) myStmt).executeQuery();
+				
+				while(myRs.next()){
+					Order tempOrder = convertRowToOrder(myRs);
+					list.add(tempOrder);
+				}
+
+				return list;
+			}
+			finally{
+				close(myStmt,myRs);
+			}
+		} 
 	// delete order
 	public void deleteOrder(Order theOrder) throws SQLException{
 //		List<Order> list = new ArrayList<>();
 		PreparedStatement myStmt = null;
 		try{
-			myStmt = myConn.prepareStatement("delete from order_info where orderID like ?");
+			myStmt = myConn.prepareStatement("delete from order_info where orderID=?");
 			myStmt.setInt(1, theOrder.getOrderID());
 			myStmt.executeUpdate();
 
 		}
 		finally{
 			close(myStmt);
+		}
+	}
+	
+//	update order info
+	public void updateOrder(Order theOrder) throws SQLException{
+		PreparedStatement myStmt = null;
+		try{
+			myStmt = myConn.prepareStatement("update order_info" +" set email=?, first_name=?,last_name=?,room_type=?,amount=?,room_number=?,check_in=?,check_out=?,total=?,comment=?"
+		            +"where orderID =?");
+			myStmt.setString(1, theOrder.getEmail());
+			myStmt.setString(2, theOrder.getFirstname());
+			myStmt.setString(3, theOrder.getLastname());
+			myStmt.setString(4, theOrder.getRoomtype());
+			myStmt.setInt(5, theOrder.getAmount());
+			myStmt.setString(6, theOrder.getRoomnumber());
+			myStmt.setString(7, theOrder.getCheckin());
+			myStmt.setString(8, theOrder.getCheckout());
+			myStmt.setDouble(9, theOrder.getTotal());
+			myStmt.setString(10, theOrder.getComment());
+			myStmt.setInt(11, theOrder.getOrderID());
+			myStmt.executeUpdate();
+		}
+		finally{
+			close(myStmt);
+		}
+	}
+	//get total price
+	public double getTotal(Order theOrder) throws SQLException{
+		Statement myStmt = null;
+		ResultSet myRs =null;;
+		double total = 0 ;
+		try{
+			myStmt = myConn.prepareStatement("select total from order_info where orderID like ?");
+			((PreparedStatement) myStmt).setInt(1, theOrder.getOrderID());
+			 myRs =((PreparedStatement) myStmt).executeQuery();
+			 while(myRs.next())
+				 total = Double.parseDouble(myRs.getString("total"));
+			 return total;
+		}
+		finally{
+			close(myStmt);
+		}
+	}
+	// set roomnumber
+	public void setRoom(int roomNumber,Order theOrder) throws SQLException{
+		PreparedStatement myStmt = null;
+		try{
+			myStmt = myConn.prepareStatement("update order_info set room_number = ? where orderID =?");
+			myStmt.setInt(1, roomNumber);
+			myStmt.setInt(2, theOrder.getOrderID());
+			myStmt.executeUpdate();
+		}
+		finally{
+			close(myStmt);
+		}
+	}
+	public int getRoom(Order theOrder) throws SQLException{
+		Statement myStmt = null;
+		ResultSet myRs = null;
+		int a = 0;
+		try{
+			myStmt = myConn.prepareStatement("select room_number from order_info where orderID =?");
+			((PreparedStatement) myStmt).setInt(1, theOrder.getOrderID());
+			myRs =((PreparedStatement) myStmt).executeQuery();
+			while(myRs.next())
+				a = Integer.parseInt(myRs.getString("room_number"));
+			return a;
+		}
+		finally{
+			close(myStmt,myRs);
 		}
 	}
 //	修改 password
@@ -124,8 +240,8 @@ public class OrderDAO {
 		String roomtype = myRs.getString("room_type");
 		int amount =myRs.getInt("amount");
 		String roomnumber = myRs.getString("room_number");
-		String checkin = myRs.getString("check-in");
-		String checkout = myRs.getString("check-out");
+		String checkin = myRs.getString("check_in");
+		String checkout = myRs.getString("check_out");
 		float total =myRs.getFloat("total");
 		String comment = myRs.getString("comment");
 		
@@ -160,13 +276,9 @@ public class OrderDAO {
 	
 	public static void main(String[] args) throws Exception {
 		
-		UserDAO dao = new UserDAO();
+		OrderDAO dao = new OrderDAO();
 
-//		System.out.println(dao.getAllUsers());
-//		System.out.println(dao.searchUserName("Rui"));
-		System.out.println(dao.searchUserEmail("sihui@gmail.com"));
-//		System.out.println(dao.exists("liting22@sstevens.edu"));
-//		System.out.println(dao.getPassword("litingwang@stevens.edu"));
+
 	}
 
 }

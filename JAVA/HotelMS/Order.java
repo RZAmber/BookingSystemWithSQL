@@ -1,4 +1,4 @@
-package HotelMS;
+package HotelBooking;
 public class Order {
     
 	private int orderID;
@@ -10,7 +10,7 @@ public class Order {
 	private String roomnumber;
 	private String checkin;
 	private String checkout;
-	private float total;
+	private double total;
 	private String comment;
 
 	
@@ -25,6 +25,21 @@ public class Order {
 		this.roomtype =roomtype;
 		this.amount=amount;
 		this.roomnumber = roomnumber;
+		this.checkin = checkin;
+		this.checkout = checkout;
+		this.total = total;
+		this.comment = comment;
+		
+	}
+	public Order(String email, String firstname, String lastname, String roomtype, 
+			int amount, String checkin, String checkout, double total, String comment){
+		super();
+		this.email=email;
+		this.firstname=firstname;
+		this.lastname=lastname;
+		this.roomtype =roomtype;
+		this.amount=amount;
+
 		this.checkin = checkin;
 		this.checkout = checkout;
 		this.total = total;
@@ -90,10 +105,10 @@ public class Order {
 	public void setCheckout(String checkout){
 		this.checkout = checkout;
 	}
-	public float getTotal(){
+	public double getTotal(){
 		return total;
 	}
-	public void setTotal(float total){
+	public void setTotal(double total){
 		this.total = total;
 	}
 	public String getComment(){

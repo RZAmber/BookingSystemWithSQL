@@ -1,4 +1,4 @@
-package HotelMS;
+package HotelBooking;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -10,6 +10,11 @@ import javax.swing.border.EmptyBorder;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
+
+import HotelBooking.User;
+import HotelBooking.UserDAO;
+import HotelBooking.UserHome;
+
 import com.jgoodies.forms.layout.FormSpecs;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -19,9 +24,6 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
-
-import HotelMS.User;
-import HotelMS.UserDAO;
 public class LoginUser extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
@@ -122,7 +124,9 @@ public class LoginUser extends JDialog {
 		String email = EmailtextField.getText();
 		String password = new String(PasswordField.getPassword());
 		UserDAO userDAO = new UserDAO();
-		
+		String firstname = userDAO.getFirstname(email);
+		String lastname = userDAO.getLastname(email);
+		int phone = userDAO.getPhone(email);
 		//check the password
 		try{
 			if("".equals(email)){
@@ -134,7 +138,7 @@ public class LoginUser extends JDialog {
 			else if(password.equals(userDAO.getPassword(email))){
 				setVisible(false);
 				dispose();
- 			    UserHome userhome = new UserHome(email); //put this email address to UserHome page and aim to use it to get the material of this user from mysql
+ 			    UserHome userhome = new UserHome(email,firstname,lastname,phone); 
  			    userhome.setVisible(true); 
 				}else{
 			//close dialog

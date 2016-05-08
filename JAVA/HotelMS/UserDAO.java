@@ -1,13 +1,14 @@
-package HotelMS;
+package HotelBooking;
 
 /**aim:
 **create userDAO
 */
 import java.util.*;
+
+import HotelBooking.User;
+
 import java.io.*;
 import java.sql.*;
-
-import HotelMS.User;
 
 public class UserDAO {
 
@@ -154,7 +155,6 @@ public class UserDAO {
 			close(myStmt,myRs);
 		}
 	} 
-	
 //	 search the user exsits or not. FOR SignupUser page
 	public boolean exists(String email) throws SQLException{
 		 ArrayList<Object> list = new ArrayList<>();
@@ -164,7 +164,7 @@ public class UserDAO {
 			 myStmt = myConn.prepareStatement("select email from user where email like ?");
 			 ((PreparedStatement) myStmt).setString(1,email);
 			 myRs =((PreparedStatement) myStmt).executeQuery();
-			 System.out.println(myRs);
+//			 System.out.println(myRs);
 			 while(myRs.next())
 				 list.add(myRs);
 			 if(list.size()>0)
@@ -189,6 +189,60 @@ public class UserDAO {
 			 while(myRs.next())
 				 ps=myRs.getString("password"); //get the value of colume "password" in user database 
 			 //because I need use ps to compare with LoginUser.getPassword to verify the password is correct or not.So I need ps is String. 
+			 return ps;
+			 
+		 }
+		 finally{
+			 close(myStmt,myRs);
+		 }
+	}
+	
+	public String getFirstname(String email) throws SQLException{
+		Statement myStmt = null;
+		ResultSet myRs =null;
+		String ps ="";
+		try{
+			myStmt = myConn.prepareStatement("select first_name from user where email like ?");
+			 ((PreparedStatement) myStmt).setString(1,email);
+			 myRs =((PreparedStatement) myStmt).executeQuery();
+			 while(myRs.next())
+				 ps=myRs.getString("first_name"); 
+			 return ps;
+			 
+		 }
+		 finally{
+			 close(myStmt,myRs);
+		 }
+	}
+	
+	public String getLastname(String email) throws SQLException{
+		Statement myStmt = null;
+		ResultSet myRs =null;
+		String ps ="";
+		try{
+			myStmt = myConn.prepareStatement("select last_name from user where email like ?");
+			 ((PreparedStatement) myStmt).setString(1,email);
+			 myRs =((PreparedStatement) myStmt).executeQuery();
+			 while(myRs.next())
+				 ps=myRs.getString("last_name"); 
+			 return ps;
+			 
+		 }
+		 finally{
+			 close(myStmt,myRs);
+		 }
+	}
+	
+	public int getPhone(String email) throws SQLException{
+		Statement myStmt = null;
+		ResultSet myRs =null;
+		int ps=0;
+		try{
+			myStmt = myConn.prepareStatement("select phone from user where email like ?");
+			 ((PreparedStatement) myStmt).setString(1,email);
+			 myRs =((PreparedStatement) myStmt).executeQuery();
+			 while(myRs.next())
+				 ps=Integer.parseInt(myRs.getString("phone")); 
 			 return ps;
 			 
 		 }
@@ -248,7 +302,7 @@ public class UserDAO {
 		System.out.println(dao.getAllUsers());
 //		System.out.println(dao.searchUserName("Rui"));
 //		System.out.println(dao.searchUserEmail("sihui@gmail.com"));
-		System.out.println(dao.exists("cuiying@gmail.com"));
+//		System.out.println(dao.exists("cuiying@gmail.com"));
 //		System.out.println(dao.getPassword("litingwang@stevens.edu"));
 	}
 }

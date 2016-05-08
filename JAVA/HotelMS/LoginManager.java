@@ -12,8 +12,6 @@ import java.awt.event.ActionEvent;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
-
-import HotelBooking.Manager;
 import HotelBooking.ManagerDAO;
 
 import com.jgoodies.forms.layout.FormSpecs;
@@ -131,6 +129,7 @@ public class LoginManager extends JDialog {
 			else if(password.equals(managerDAO.getPassword(ID))){
 				setVisible(false);
 				dispose();
+				System.out.println("ok");
  			    ManagerHome managerhome = new ManagerHome(ID,isadmin); //put this email address to UserHome page and aim to use it to get the material of this user from mysql
  			    managerhome.setLoggedInUserName(ID);
  			    managerhome.setVisible(true); 

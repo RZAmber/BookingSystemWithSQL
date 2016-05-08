@@ -13,38 +13,53 @@ import javax.swing.border.EmptyBorder;
 import HotelBooking.Manager;
 import HotelBooking.ManagerDAO;
 import HotelBooking.ManagerTableModel;
-
+import HotelBooking.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 public class ManagerHome extends JDialog {
 
 	private Manager manager;
 	private ManagerDAO managerDAO;
+	private User user;
+	private UserDAO userDAO;
+	private OrderDAO orderDAO;
 	private JPanel contentPanel;
 	private JTabbedPane tabbedPane;
 	private JPanel userPanel;
 	private JTable UserTable;
 	private JPanel UButton;
+	private JTextField firstNameTextField;
+	private JTextField RoomTypeTextField;
+	private JTextField PTextField;
 	
 	private JPanel orderPanel;
+	private JPanel panel_3;
+	private JPanel OButton;
+	private JTable OrderTable;
 	
 	private JPanel managerPanel;
 	private JPanel panel_1;
 	private JPanel MButton;
 	
-	
 	private JPanel roomPanel;
+	private JPanel panel_4;
+	private JPanel RButton;
+	private JTable RoomTable;
 	
 	private JPanel topPanel;
 	private JLabel lblLoggedIn ;
 	private JLabel loggedInUserLabel;
-	private JPanel panel_2;
 	private JScrollPane scrollPane;
 	private JButton btnCheck;
 
 	private static int ID;
 	private static boolean isadmin;
 	private JTable ManagerTable;
+//	private JTable table;
+	private JButton btnChooseRoom;
+	
+	private String aa;
+	private int bb;
 
 	/**
 	 * Launch the application.
@@ -63,7 +78,7 @@ public class ManagerHome extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public ManagerHome(int ID, boolean isadmin) {
+	public ManagerHome(final int ID, boolean isadmin) {
 		setTitle("Manager Home");
 		setBounds(100, 100, 600, 500);
 		contentPanel = new JPanel();
@@ -122,24 +137,149 @@ public class ManagerHome extends JDialog {
 		});
 		MButton.add(btnCheck);
 		JButton addMangerButton = new JButton("Add Manager");
+		addMangerButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AddManager AM = new AddManager();
+				AM.setVisible(true);
+				// add some get information method
+//				  AddManager();
+			}
+		});
 		MButton.add(addMangerButton);
-		JButton updateMangerButton = new JButton("Update Manager");
-		MButton.add(updateMangerButton);
 		JButton changePMangerButton = new JButton("Change Password");
 		changePMangerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				changePassword();
+				int row = ManagerTable.getSelectedRow();
+				if(row<0){
+					JOptionPane.showMessageDialog(ManagerHome.this, "You must select a user");
+					return;
+				}
+				int IID = (int) ManagerTable.getValueAt(row, 0);
+//				System.out.println(IID);
+				if(IID == ID){
+					ChangeMNPassword cp = new ChangeMNPassword(ID);
+					cp.setVisible(true);
+				}else{
+					JOptionPane.showMessageDialog(ManagerHome.this, "You cannot change other's password", "Error",
+							JOptionPane.ERROR_MESSAGE);			
+				}
+
 				}		
 		});
 		MButton.add(changePMangerButton);
 		addMangerButton.setEnabled(isadmin);
-		updateMangerButton.setEnabled(isadmin);
 		
 		
 		// order page
 		orderPanel = new JPanel();
 		tabbedPane.addTab("Order",null,orderPanel,null);
 		orderPanel.setLayout(new BorderLayout(0,0));
+		JPanel searchOrderPanel = new JPanel();
+		orderPanel.add(searchOrderPanel,BorderLayout.NORTH);
+		searchOrderPanel.setBorder(null);
+		FlowLayout flowLayout_1=(FlowLayout) searchOrderPanel.getLayout();
+		flowLayout_1.setAlignment(FlowLayout.LEFT);
+		JLabel lblEnterFirstName_o = new JLabel("Enter first name");
+		searchOrderPanel.add(lblEnterFirstName_o);		
+		PTextField = new JTextField();
+		searchOrderPanel.add(PTextField);
+		PTextField.setColumns(10);
+		JButton btnsearchOrder = new JButton("Search");
+		btnsearchOrder.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					searchOrder();
+					
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
+		searchOrderPanel.add(btnsearchOrder);
+		panel_3 = new JPanel();
+		orderPanel.add(panel_3, BorderLayout.CENTER);
+		panel_3.setLayout(new BorderLayout(0,0));
+		OrderTable = new JTable();
+		panel_3.add(OrderTable.getTableHeader(), BorderLayout.NORTH);
+		panel_3.add(OrderTable, BorderLayout.CENTER);	
+		scrollPane = new JScrollPane();
+		panel_3.add(scrollPane, BorderLayout.EAST);
+		OButton = new JPanel();
+		orderPanel.add(OButton, BorderLayout.SOUTH);
+		JButton btnAddOrder = new JButton("Add Order");
+		btnAddOrder.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				HomePage hp = new HomePage(aa,aa,aa,bb,1, 2, 3, 4);
+			}
+		});
+		OButton.add(btnAddOrder);
+		JButton btnCheckOut = new JButton("Check Out");
+		btnCheckOut.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try{
+				int row = OrderTable.getSelectedRow();
+				if(row<0){
+					JOptionPane.showMessageDialog(ManagerHome.this, "You must select an order");
+					return;
+				}
+				Order tempOrder = (Order) OrderTable.getValueAt(row,OrderTableModel.OBJECT_COL);
+				orderDAO = new OrderDAO();
+				double total = orderDAO.getTotal(tempOrder);
+//				System.out.println(total);
+				int roomNumber = orderDAO.getRoom(tempOrder);
+//				System.out.println(roomNumber);
+				TotalPrice tp = new TotalPrice(tempOrder,total,roomNumber);
+				tp.setVisible(true);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
+		OButton.add(btnCheckOut);
+		JButton btnDeleteOrder = new JButton("Delete Order");
+		btnDeleteOrder.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					int row = OrderTable.getSelectedRow();
+					if(row<0){
+						JOptionPane.showMessageDialog(ManagerHome.this, "You must select an order");
+						return;
+					}
+					Order tempOrder = (Order) OrderTable.getValueAt(row,OrderTableModel.OBJECT_COL);
+					orderDAO = new OrderDAO();
+					orderDAO.deleteOrder(tempOrder);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		OButton.add(btnDeleteOrder);
+		
+		btnChooseRoom = new JButton("Choose Room");
+		btnChooseRoom.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					int row = OrderTable.getSelectedRow();
+					if(row<0){
+						JOptionPane.showMessageDialog(ManagerHome.this, "You must select an order");
+						return;
+					}
+					Order tempOrder = (Order) OrderTable.getValueAt(row,OrderTableModel.OBJECT_COL);
+					ChooseRoom cr = new ChooseRoom(tempOrder);
+					cr.setVisible(true);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+			
+		});
+		OButton.add(btnChooseRoom);
 		
 		// user page
 		userPanel = new JPanel();
@@ -148,61 +288,136 @@ public class ManagerHome extends JDialog {
 		JPanel searchUserPanel = new JPanel();
 		userPanel.add(searchUserPanel,BorderLayout.NORTH);
 		searchUserPanel.setBorder(null);
-		FlowLayout flowLayout_1=(FlowLayout) searchUserPanel.getLayout();
-		flowLayout_1.setAlignment(FlowLayout.LEFT);
-		JLabel lblEnterLastName = new JLabel("Enter last name");
-		searchUserPanel.add(lblEnterLastName);		
-		JTextField lastNameTextField = new JTextField();
-		searchUserPanel.add(lastNameTextField);
-		lastNameTextField.setColumns(10);
+		FlowLayout flowLayout_3=(FlowLayout) searchUserPanel.getLayout();
+		flowLayout_3.setAlignment(FlowLayout.LEFT);
+		JLabel lblEnterFirstName = new JLabel("Enter first name");
+		searchUserPanel.add(lblEnterFirstName);		
+		firstNameTextField = new JTextField();
+		searchUserPanel.add(firstNameTextField);
+		firstNameTextField.setColumns(10);
 		JButton btnsearchUser = new JButton("Search");
+		btnsearchUser.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					searchUser();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		searchUserPanel.add(btnsearchUser);
-		panel_2 = new JPanel();
-		userPanel.add(panel_2, BorderLayout.CENTER);
-		panel_2.setLayout(new BorderLayout(0,0));
+		panel_3 = new JPanel();
+		userPanel.add(panel_3, BorderLayout.CENTER);
+		panel_3.setLayout(new BorderLayout(0,0));
 		UserTable = new JTable();
-		panel_2.add(UserTable.getTableHeader(), BorderLayout.NORTH);
-		panel_2.add(UserTable, BorderLayout.CENTER);	
+		panel_3.add(UserTable.getTableHeader(), BorderLayout.NORTH);
+		panel_3.add(UserTable, BorderLayout.CENTER);	
 		scrollPane = new JScrollPane();
-		panel_2.add(scrollPane, BorderLayout.EAST);
+		panel_3.add(scrollPane, BorderLayout.EAST);
 		UButton = new JPanel();
 		userPanel.add(UButton, BorderLayout.SOUTH);
-		JButton btnAddUser = new JButton("Add User");
-		UButton.add(btnAddUser);
+		JButton btnAddUrder = new JButton("Add User");
+		btnAddUrder.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SignupUser signup = new SignupUser();
+				signup.setVisible(true);
+			}
+		});
+		UButton.add(btnAddUrder);
+
 
 		// room page
 		roomPanel = new JPanel();
 		tabbedPane.addTab("Room",null,roomPanel,null);
 		roomPanel.setLayout(new BorderLayout(0,0));
+		JPanel searchRoomPanel = new JPanel();
+		roomPanel.add(searchRoomPanel,BorderLayout.NORTH);
+		searchRoomPanel.setBorder(null);
+		FlowLayout flowLayout_r=(FlowLayout) searchRoomPanel.getLayout();
+		flowLayout_r.setAlignment(FlowLayout.LEFT);
+		JLabel lblEnterRoomType = new JLabel("Enter Room Type");
+		searchRoomPanel.add(lblEnterRoomType);		
+		RoomTypeTextField = new JTextField();
+		searchRoomPanel.add(RoomTypeTextField);
+		RoomTypeTextField.setColumns(10);
+		JButton btnsearchRoom = new JButton("Search");
+		btnsearchRoom.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					searchRoom();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		searchRoomPanel.add(btnsearchRoom);
+		panel_4 = new JPanel();
+		roomPanel.add(panel_4, BorderLayout.CENTER);
+		panel_4.setLayout(new BorderLayout(0,0));
+		RoomTable = new JTable();
+		panel_4.add(RoomTable.getTableHeader(), BorderLayout.NORTH);
+		panel_4.add(RoomTable, BorderLayout.CENTER);	
+		scrollPane = new JScrollPane();
+		panel_4.add(scrollPane, BorderLayout.EAST);
+		RButton = new JPanel();
+		roomPanel.add(RButton, BorderLayout.SOUTH);
+
 	}		
-		
-	
+			
 	public void setLoggedInUserName(int ID) {
 		loggedInUserLabel.setText(Integer.toString(ID));
 	}
-	public void AddManager(){
-		
-	}
-	public void changePassword(){
-		int row = ManagerTable.getSelectedRow();
-
-		if (row < 0) {
-			JOptionPane.showMessageDialog(ManagerHome.this, "You must select one", "Error",
-					JOptionPane.ERROR_MESSAGE);				
-			return;
-	}
-		int f =Integer.parseInt((String) ManagerTable.getValueAt(row,0));
-		if (f==ID){
-			System.out.println("ok");
-		}
-			
 
 //		String t = (String) ManagerTable.getValueAt(row,0);
 //		return t;
 
+	private void searchOrder() throws Exception {
+		// TODO Auto-generated method stub
+		String p = PTextField.getText();
+		OrderDAO orderDAO = new OrderDAO();
+		List<Order> orders =null;
 		
-
-	
+		if (p != null && p.trim().length() > 0) {
+			orders = orderDAO.searchOrderFN(p);
+		} else {
+			orders =orderDAO.getAllOrders();
+		}
+		
+		OrderTableModel model3 = new OrderTableModel(orders);
+		OrderTable.setModel(model3);
 	}
 	
+	private void searchUser() throws Exception {
+		// TODO Auto-generated method stub
+		String firstname = firstNameTextField.getText();
+		UserDAO userDAO = new UserDAO();
+		List<User> users =null;
+		if (firstname != null && firstname.trim().length() > 0) {
+			users = userDAO.searchUserName(firstname);
+		} else {
+			users =userDAO.getAllUsers();
+		}
+		
+		// create the model and update the "table"
+		UserTableModel model1 = new UserTableModel(users);
+		UserTable.setModel(model1);
+		
+	}
+	private void searchRoom() throws Exception {
+		String roomtype = RoomTypeTextField.getText();
+		RoomDAO roomDAO = new RoomDAO();
+		List<Room> rooms =null;
+		if (roomtype != null && roomtype.trim().length() > 0) {
+			rooms = roomDAO.searchRoom(roomtype);
+		} else {
+			rooms =roomDAO.getAllRooms();
+		}
+		// create the model and update the "table"
+		RoomTableModel model2 = new RoomTableModel(rooms);
+		RoomTable.setModel(model2);
+		
+	}
 }
+//

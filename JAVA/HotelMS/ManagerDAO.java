@@ -10,7 +10,7 @@ import java.sql.*;
 public class ManagerDAO {
 
 	private Connection myConn;
-	
+	private Manager theManager;
 	public ManagerDAO() throws Exception {
 		Properties props = new Properties();
 		props.load(new FileInputStream("sql/hotel.properties"));
@@ -100,6 +100,19 @@ public class ManagerDAO {
 		 }
 		 finally{
 			 close(myStmt,myRs);
+		 }
+	}
+	public void changePassword(int ID,String password) throws SQLException{
+		PreparedStatement myStmt = null;
+		try{
+			myStmt = myConn.prepareStatement("update manager set password =? where ID=?");
+			myStmt.setString(1, password);
+			myStmt.setInt(2, ID);
+			myStmt.executeUpdate();
+			 
+		 }
+		 finally{
+			 close(myStmt);
 		 }
 	}
 	public boolean getIsadim(int ID) throws SQLException{

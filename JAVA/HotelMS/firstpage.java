@@ -1,4 +1,4 @@
-package HotelMS;
+package HotelBooking;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
@@ -112,6 +112,13 @@ public class firstpage extends JFrame {
  		btnNewButton.setFont(new Font("Lucida Calligraphy", Font.BOLD | Font.ITALIC, 20));
  		
  		JButton btnNewButton_2 = new JButton("Manager Login");
+ 		btnNewButton_2.addActionListener(new ActionListener() {
+ 			public void actionPerformed(ActionEvent e) {
+ 				setVisible(false);
+ 				LoginManager login = new LoginManager();
+ 				login.setVisible(true);
+ 			}
+ 		});
  		panel.add(btnNewButton_2);
  		btnNewButton_2.setFont(new Font("Lucida Calligraphy", Font.BOLD | Font.ITALIC, 20));
  		  

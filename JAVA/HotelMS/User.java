@@ -1,4 +1,4 @@
-package HotelMS;
+package HotelBooking;
 
 public class User {
     

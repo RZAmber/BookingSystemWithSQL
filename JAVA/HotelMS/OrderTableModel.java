@@ -1,7 +1,8 @@
-package HotelMS;
+package HotelBooking;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
-import HotelMS.Order;
+
+import HotelBooking.Order;
 
 public class OrderTableModel extends AbstractTableModel {
 	public static final int OBJECT_COL=-1;
@@ -19,7 +20,7 @@ public class OrderTableModel extends AbstractTableModel {
 
 	
 	private String[] columnNames = { "OrderID","Email", "First Name","Last Name",
-			"RoomType","Amount","Room Number","Check-in","Check-out","Total","Comment"};
+			"RoomType","Amount","Room Number","Checkin","Checkout","Total","Comment"};
 	
 	private List<Order> orders;
 

@@ -1,4 +1,4 @@
-package HotelMS;
+package HotelBooking;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -11,6 +11,11 @@ import javax.swing.border.EmptyBorder;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
+
+import HotelBooking.User;
+import HotelBooking.UserDAO;
+import HotelBooking.UserHome;
+
 import com.jgoodies.forms.layout.FormSpecs;
 
 import javax.swing.JLabel;
@@ -20,8 +25,6 @@ import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-import HotelMS.User;
-import HotelMS.UserDAO;
 import javax.swing.JPasswordField;
 
 public class SignupUser extends JDialog {

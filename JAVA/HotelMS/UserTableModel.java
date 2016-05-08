@@ -1,7 +1,8 @@
-package HotelMS;
+package HotelBooking;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
-import HotelMS.User;
+
+import HotelBooking.User;
 
 public class UserTableModel extends AbstractTableModel {
 	public static final int OBJECT_COL=-1;
@@ -78,8 +79,9 @@ public class UserTableModel extends AbstractTableModel {
 		}
 	}
 	
-	public Class getColumnClass(int c){
-		return getValueAt(0,c).getClass();
-	}
+//	public Class getColumnClass(int c){
+//		return getValueAt(0,c).getClass();
+//	}
 
 }
+//
